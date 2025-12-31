@@ -12,7 +12,7 @@ jobs:
 
     env:
       SERVER_IP: ${{ vars.SERVER_IP }}
-      SSH_KEY64: ${{ vars.SSH_KEY64 }}
+      
 
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +29,9 @@ jobs:
           echo $SSH_KEY64 | base64 -d > cicdkey.pem
           chmod 400 cicdkey.pem
           ssh-keygen -R $SERVER_IP || true
+        env:
+          SSH_KEY64: ${{ secrets.SSH_KEY64 }}
+          
 
       - name: Deploy the code to my server
         run: |
